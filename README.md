@@ -49,9 +49,61 @@ simple-project-test/
 
 ---
 
-# Database Migration
+## Struktur Database (ERD)
 
--
+Berikut adalah struktur tabel utama yang digunakan dalam aplikasi ini:
+
+```mermaid
+erDiagram
+    USERS ||--o{ POSTS : "mempunyai"
+    
+    USERS {
+        bigint id PK "Primary Key"
+        string name
+        string email "Unique"
+        string password
+        timestamp email_verified_at "Nullable"
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    POSTS {
+        bigint id PK "Primary Key"
+        bigint user_id FK "Foreign Key to USERS"
+        string title
+        text body
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
+### 1. Tabel `users`
+Menyimpan data otentikasi dan profil pengguna.
+
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| `id` | bigint (Unsigned) | Primary Key, Auto Increment |
+| `name` | varchar(255) | Nama lengkap pengguna |
+| `email` | varchar(255) | Email pengguna (Unique) |
+| `email_verified_at` | timestamp | Waktu verifikasi email (Nullable) |
+| `password` | varchar(255) | Password yang sudah di-hash (Bcrypt) |
+| `remember_token`| varchar(100) | Token untuk fitur remember me (Nullable) |
+| `created_at` | timestamp | Waktu akun dibuat |
+| `updated_at` | timestamp | Waktu akun terakhir diupdate |
+
+### 2. Tabel `posts`
+Menyimpan data artikel atau post yang dibuat oleh pengguna.
+
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| `id` | bigint (Unsigned) | Primary Key, Auto Increment |
+| `user_id` | bigint (Unsigned) | Foreign Key merujuk ke `users(id)` dengan relasi `Cascade on Delete` |
+| `title` | varchar(255) | Judul post |
+| `body` | text | Isi / konten post |
+| `created_at` | timestamp | Waktu post dibuat |
+| `updated_at` | timestamp | Waktu post terakhir diupdate |
+
+> *Catatan: Selain dua tabel domain utama di atas, aplikasi ini juga menggunakan tabel bawaan dari ekosistem Laravel seperti `personal_access_tokens` (untuk manajemen token autentikasi Sanctum), `migrations` (untuk tracking riwayat skema database), `password_reset_tokens`, dan `sessions`.*
 
 ## Cara Instalasi & Menjalankan Project
 
