@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: simple_project
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+    - "3307:3306"
+    volumes:
+      - "db_data:/var/lib/mysql"
+  
+
+  app:
+    build: ./laravel
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      APP_KEY: base64:G5R0OyhYLpmRFW8wFi+VJ7gm6a7FRit/ZgzzEKsNvYY=
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: simple_project
+      DB_USERNAME: root
+      DB_PASSWORD: password
+
+  frontend:
+    build: ./nextjs
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
+
+volumes:
+  db_data:

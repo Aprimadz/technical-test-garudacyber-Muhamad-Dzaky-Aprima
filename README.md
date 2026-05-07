@@ -49,6 +49,10 @@ simple-project-test/
 
 ---
 
+# Database Migration
+
+-
+
 ## Cara Instalasi & Menjalankan Project
 
 ### 1. Setup Backend (Laravel)
