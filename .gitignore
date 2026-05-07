@@ -1,0 +1,8 @@
+laravel/vendor/
+laravel/.env
+laravel/storage/*.key
+laravel/node_modules/
+
+nextjs/node_modules/
+nextjs/.next/
+nextjs/.env.local
